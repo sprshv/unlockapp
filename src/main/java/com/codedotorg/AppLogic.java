@@ -7,6 +7,8 @@ public class AppLogic {
 
     /** The pin the user has provided */
     private String user;
+    private boolean isUnlocked;  // Whether the app is unlocked
+    
 
     /**
      * Constructor for the AppLogic class.
@@ -22,18 +24,23 @@ public class AppLogic {
      * @param predictedClass the predicted class from the machine learning model
      * @return the user PIN as a string
      */
-    public String createUserPin(String predictedClass) {
-        
-        return "";
-    }
+    
+        public String createUserPin(String predictedClass) {
+            if (predictedClass.equals("Correct Face")) {
+                isUnlocked = true;
+            } else if (predictedClass.equals("Wrong Face") || (predictedClass.equals("No Face"))) {
+                isUnlocked = false;
+            }
+            return pin;
+        }
+    
 
     /**
      * Checks if the length of the user's PIN is equal to 4.
      * @return true if the length of the user's PIN is equal to 4, false otherwise.
      */
     public boolean checkPinLength() {
-        
-        return false;
+        return pin.length() == 4;
     }
 
     /**
@@ -42,8 +49,11 @@ public class AppLogic {
      * @return a string indicating whether the PIN is correct or not
      */
     public String getPinStatus(String userPin) {
-        
-        return "";
+        if (userPin.equals(pin)) {
+            return "Unlocked";
+        } else {
+            return "Locked";
+        }
     }
     
     /**
@@ -60,8 +70,12 @@ public class AppLogic {
      * @return the generated PIN number as a string.
      */
     private String createRandomPin() {
-        
-        return "";
+        int pin = (int)(Math.random() * 9000) + 1000; // This will generate a random four digit number
+        return String.valueOf(pin);
     }
 
+
+    public boolean isAppUnlocked() {
+        return isUnlocked;
+    }
 }

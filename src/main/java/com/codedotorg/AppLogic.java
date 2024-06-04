@@ -1,5 +1,7 @@
 package com.codedotorg;
 
+import com.codedotorg.modelmanager.CameraController;
+
 public class AppLogic {
 
     /** The pin to unlock the app */
@@ -25,10 +27,15 @@ public class AppLogic {
      * @return the user PIN as a string
      */
     
-        public String createUserPin(String predictedClass) {
-            if (predictedClass.equals("Correct Face")) {
+        public String createUserPin(CameraController predictedClass) {
+           
+            if (predictedClass.getPredictedClass().equals("Correct Face") && predictedClass.getPredictedScore() > .80) {
                 isUnlocked = true;
-            } else if (predictedClass.equals("Wrong Face") || (predictedClass.equals("No Face"))) {
+            } else if (predictedClass.getPredictedClass().equals("Wrong Face") || (predictedClass.getPredictedClass().equals("No Face"))) {
+                isUnlocked = false;
+            } else if (predictedClass.getPredictedClass().equals("Correct Face") && predictedClass.getPredictedScore() < .80) {
+                isUnlocked = false;
+            } else {
                 isUnlocked = false;
             }
             return pin;
@@ -48,14 +55,24 @@ public class AppLogic {
      * @param userPin the PIN entered by the user
      * @return a string indicating whether the PIN is correct or not
      */
-    public String getPinStatus(String userPin) {
-        if (userPin.equals(pin)) {
+    // public String getPinStatus(String userPin) {
+    //     if (userPin.equals(pin)) {
+    //         return "Unlocked";
+    //     } else {
+    //         return "Locked";
+    //     }
+    // }
+    
+
+    public String getFaceStatus(CameraController predictedClass) {
+        System.out.println(predictedClass.getPredictedClass().trim().equalsIgnoreCase("0 Correct Face") && predictedClass.getPredictedScore() >= .80);
+        System.out.print(predictedClass.getPredictedClass().trim() + " " + predictedClass.getPredictedScore() + "\n");
+        if (predictedClass.getPredictedClass().trim().equals("0 Correct Face") && predictedClass.getPredictedScore() > .80) {
             return "Unlocked";
         } else {
             return "Locked";
         }
     }
-    
     /**
      * Resets the logic of the application by generating
      * a new random PIN and clearing the user field.

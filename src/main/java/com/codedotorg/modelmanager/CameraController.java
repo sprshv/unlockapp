@@ -128,4 +128,12 @@ public class CameraController {
         // Build and return an Image created from the image encoded in the buffer
         return new Image(new ByteArrayInputStream(buffer.toArray()));
     }
+
+    public void changePredictedClass(String newPredictedClass) {
+        predictedClass = newPredictedClass;
+    }
+
+    public void changePredictedScore(float newPredictedScore) {
+        predictedScore = newPredictedScore;
+    }
 }

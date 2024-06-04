@@ -115,31 +115,32 @@ public class Unlock {
             // Get the predicted class and score from the CameraController
             String predictedClass = cameraController.getPredictedClass();
             double predictedScore = cameraController.getPredictedScore();
+        
 
             if (predictedClass != null) {
                 // Show the user's response and confidence score in the app
                 lock.showUserResponse(predictedClass, predictedScore);
 
                 // Add the user's response to the pin so far
-                String userPin = logic.createUserPin(predictedClass);
+                String userPin = logic.createUserPin(cameraController);
 
                 // Displays the current pin so far
                 lock.setPinLabel(userPin);
 
                 // Check if all four numbers have been given
-                if (userPin.length() == 4) {
+                //if (userPin.length() == 4) {
                     // Create a pause transition of 3 seconds
                     PauseTransition pause = new PauseTransition(Duration.seconds(3));
 
                     // Set the action to execute after the pause
                     pause.setOnFinished(e -> {
-                        String pinStatus = logic.getPinStatus(userPin);
+                        String pinStatus = logic.getFaceStatus(cameraController);
                         loadMainScene(pinStatus);
                     });
 
                     // Start the pause transition
                     pause.play();
-                }
+             //   }
             }
         }));
 

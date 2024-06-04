@@ -65,9 +65,7 @@ public class AppLogic {
     
 
     public String getFaceStatus(CameraController predictedClass) {
-        System.out.println(predictedClass.getPredictedClass().trim().equalsIgnoreCase("0 Correct Face") && predictedClass.getPredictedScore() >= .80);
-        System.out.print(predictedClass.getPredictedClass().trim() + " " + predictedClass.getPredictedScore() + "\n");
-        if (predictedClass.getPredictedClass().trim().equals("0 Correct Face") && predictedClass.getPredictedScore() > .80) {
+        if (predictedClass.getPredictedClass().trim().equals("0 Correct Face") && predictedClass.getPredictedScore() > .97) {
             return "Unlocked";
         } else {
             return "Locked";
